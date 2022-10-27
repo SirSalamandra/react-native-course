@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { StatusBar } from 'expo-status-bar';
 
 import Colors from './Util/colors';
 
@@ -57,20 +58,23 @@ export default function App() {
   }
 
   return (
-    <LinearGradient style={styles.rootScreen}
-      colors={[Colors.primary700, Colors.accent500]}
-    >
-      <ImageBackground
-        source={require('./assets/images/background.png')}
-        resizeMode='cover'
-        style={styles.rootScreen}
-        imageStyle={styles.backgroundImage}
+    <>
+      <StatusBar style='light' />
+      <LinearGradient style={styles.rootScreen}
+        colors={[Colors.primary700, Colors.accent500]}
       >
-        <SafeAreaView style={styles.rootScreen}>
-          {screen}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require('./assets/images/background.png')}
+          resizeMode='cover'
+          style={styles.rootScreen}
+          imageStyle={styles.backgroundImage}
+        >
+          <SafeAreaView style={styles.rootScreen}>
+            {screen}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
