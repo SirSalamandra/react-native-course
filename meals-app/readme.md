@@ -1,4 +1,4 @@
-Project to learn how to use navigation on react native apps.
+Project to learn how to use navigation and context on react native apps.
 
 Content: 
 - Navigation;
@@ -7,5 +7,7 @@ Content:
 - How to customize the navigator;
 - Type of navigators;
 - Nested navigators;
+- Context API;
+- Redux Tool
 
 Documentation: [React Navigation](https://reactnavigation.org/)
