@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { MEALS } from "../data/dummy-data";
 
@@ -6,14 +6,18 @@ import IconButton from "../components/IconButton";
 import List from "../components/MealDetail/List";
 import Subtitle from "../components/MealDetail/Subtitle";
 import MealDetails from "../components/MealDetails";
-import { FavoritesContext } from "../store/context/favorites-context";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../store/redux/favorites";
 
 export const MealDetailScreen = ({ route, navigation }) => {
-  const favoriteMealsCtx = useContext(FavoritesContext);
+  const favoriteMealsIds = useSelector((state) => state.favoriteMeals.ids);
 
-  const id = route.params.mealId;
+  const dispatch = useDispatch();
 
-  const selectedMeal = MEALS.find((meal) => meal.id === id);
+  const mealId = route.params.mealId;
+  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const mealsIsFavorite = favoriteMealsIds.includes(mealId);
+
   const mealDetailParams = {
     affordability: selectedMeal.affordability,
     complexity: selectedMeal.complexity,
@@ -21,10 +25,15 @@ export const MealDetailScreen = ({ route, navigation }) => {
     textStyle: styles.mealDetail
   }
 
-  const mealsIsFavorite = favoriteMealsCtx.ids.includes(id);
   const changeFavoriteStatusHandler = () => {
-    if (mealsIsFavorite) favoriteMealsCtx.removeFavorite(id);
-    else favoriteMealsCtx.addFavorite(id);
+    if (mealsIsFavorite) {
+      // favoriteMealsCtx.removeFavorite(mealId);
+      dispatch(removeFavorite({ id: mealId }));
+    }
+    else {
+      // favoriteMealsCtx.addFavorite(mealId);
+      dispatch(addFavorite({ id: mealId }));
+    }
   }
 
   useLayoutEffect(() => {
@@ -32,7 +41,6 @@ export const MealDetailScreen = ({ route, navigation }) => {
       headerRight: () => {
         return <IconButton
           icon={mealsIsFavorite ? 'star' : 'star-outline'}
-          // icon='star'
           color='white'
           onPress={changeFavoriteStatusHandler}
         />
