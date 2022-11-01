@@ -41,7 +41,7 @@ export default ExpenseForm = ({ defaultValues, submitButtonLabel, onCancel, onSu
     const dateIsValid = expenseData.date.toString() !== 'Invalid Date';
     const descriptionIsValid = expenseData.description.trim().length > 0;
 
-    if (!amountIsValid || !dateIsValid || !description) {
+    if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
       setInput((currentInputs) => {
         return {
           amount: { value: currentInputs.amount.value, isValid: amountIsValid },
