@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = 'https://salamandra-0574-default-rtdb.firebaseio.com';
+const BACKEND_URL = 'FIREBASE URL HERE';
 
 export const storeExpense = async (expenseData) => {
   const response = await axios.post(
