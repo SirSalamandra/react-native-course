@@ -14,11 +14,12 @@ export default PlaceList = ({ places }) => {
   }
 
   const placeRender = (item) => {
-    return <PlaceItem place={item} />
+    return <PlaceItem place={item.item} />
   }
 
   return (
     <FlatList
+      style={styles.list}
       data={places}
       key={(item) => item.id}
       renderItem={placeRender}
@@ -27,6 +28,10 @@ export default PlaceList = ({ places }) => {
 }
 
 const styles = StyleSheet.create({
+  list: {
+    margin: 24
+  },
+
   fallbackContainer: {
     flex: 1,
     justifyContent: 'center',

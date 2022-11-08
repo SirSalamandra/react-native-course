@@ -2,7 +2,7 @@ import { Alert, Image, StyleSheet, View, Text } from "react-native";
 import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
 
-import { getMapPreview } from "../../util/location";
+import { getAddress, getMapPreview } from "../../util/location";
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from "expo-location";
 import { useEffect, useState } from "react";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
@@ -57,7 +57,15 @@ export default LocationPicker = ({ onPickLocation }) => {
   }, [route, isFocused]);
 
   useEffect(() => {
-    onPickLocation(pickedLocation);
+    const handleLocation = async () => {
+      if (pickedLocation) {
+        const address = await getAddress(pickedLocation.lat, pickedLocation.long);
+        onPickLocation({ ...pickedLocation, address: address });
+      }
+    }
+
+
+    handleLocation()
   }, [pickedLocation, onPickLocation])
 
   let locationPreview = <Text>no Location picked yet.</Text>
