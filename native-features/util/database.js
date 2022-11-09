@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import { Place } from '../model/place';
 
 const database = SQLite.openDatabase('places.db');
 
@@ -22,6 +23,98 @@ export const init = () => {
           reject(error);
         }
       );
+    });
+  })
+
+  return promise;
+}
+
+export const insertPlace = (place) => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)`,
+        [
+          place.title,
+          place.imageUri,
+          place.address,
+          place.location.lat,
+          place.location.long
+        ],
+        (_, result) => {
+          console.log(result);
+          resolve(result);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      )
+    })
+  });
+
+  return promise;
+}
+
+export const fetchPlaces = () => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM places`,
+        [],
+        (_, result) => {
+          const places = [];
+
+          result.rows._array.forEach(place => {
+            places.push(new Place(
+              place.title,
+              place.imageUri,
+              {
+                address: place.address,
+                lat: place.lat,
+                long: place.lng
+              },
+              place.id
+            ));
+          });
+
+          resolve(places);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      )
+    });
+  })
+
+  return promise;
+}
+
+export const fetchPlaceDetails = (id) => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM places WHERE id = ?`,
+        [id],
+        (_, result) => {
+          const dbResult = result.rows._array[0];
+
+          const place = new Place(
+            dbResult.title,
+            dbResult.imageUri,
+            {
+              address: dbResult.address,
+              lat: dbResult.lat,
+              long: dbResult.lng
+            },
+            dbResult.id
+          );
+
+          resolve(place);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      )
     });
   })
 

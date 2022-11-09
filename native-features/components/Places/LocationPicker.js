@@ -63,8 +63,6 @@ export default LocationPicker = ({ onPickLocation }) => {
         onPickLocation({ ...pickedLocation, address: address });
       }
     }
-
-
     handleLocation()
   }, [pickedLocation, onPickLocation])
 
