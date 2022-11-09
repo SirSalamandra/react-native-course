@@ -1,1 +1,1 @@
-Check the project branchs to see all the projects based on the lessons.
+For this project we learned how to use and send Local and Push notifications
